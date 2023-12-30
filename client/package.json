@@ -44,5 +44,10 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.4.0"
-  }
+  },
+  "description": "This proj was bootstrapped with [Create React App]",
+  "main" :"tailwind.config.js",
+  "author":"",
+  "license" :"ISC",
+  "proxy" :"http://localhost:5000"
 }

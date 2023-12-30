@@ -5,6 +5,8 @@ const router = require('express').Router();
  const bcrypt = require('bcrypt');
  const User = require('../models/userModel');
  const jwt= require("jsonwebtoken");
+const authMiddleware = require('../middleware/authMiddleware');
+
 router.post("/register",async (req,res)=> {
     try{
         const user =await User.findOne({ email :req.body.email});
@@ -45,7 +47,7 @@ router.post("/login",async (req,res)=>{
         if(!validPassword){
             throw new Error("Invalid password");
         } 
-        const token =jwt.sign({userId : user._id}, process.env.jwt_secret);
+        const token =jwt.sign({userId : user._id}, process.env.jwt_secret,{expiresIn:"1d"});
        res.send({
         success :true,
         message : "User logged in successfully",
@@ -58,5 +60,22 @@ router.post("/login",async (req,res)=>{
         });
     }
 });
+router.get("/get-current-user",authMiddleware, async(req,res)=>{
+    try{
+        const user =await User.findById(req.body.userId);
+        res.send({
+            success : true,
+            message  : "User fetched successfully",
+            data :user,
+        })
+  
 
+    }catch (error){
+        res.send({
+            success :false,
+            message :error.message,
+        });
+
+    }
+});
 module.exports =router;

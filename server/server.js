@@ -8,5 +8,5 @@ const port = process.env.PORT || 5000;
 
 
  const userRoute =require('./routes/usersRoute');
- app.use('/api/users',usersRoute);
+app.use('/api/users',userRoute);
 app.listen(port, () => console.log(`Node/Express JS Server started on port ${port}`));
