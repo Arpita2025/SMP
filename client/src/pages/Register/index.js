@@ -24,7 +24,7 @@
 //       message.error(error.message)
 //     }
 //   };
-import React from 'react';
+import React, { useEffect,useNavigate } from 'react';
 import { Button, Form, Input, message } from 'antd'; // Add 'message' import
 import { Link } from 'react-router-dom';
 import Divider from '../../components/Divider';
@@ -38,6 +38,7 @@ const rules = [
 ];
 
 function Register() {
+  const navigate = useNavigate()
   const onFinish = async (values) => {
     try {
       const response = await RegisterUser(values);
@@ -50,6 +51,13 @@ function Register() {
       message.error(error.message);
     }
   };
+
+  useEffect(() => {
+    if(localStorage.getItem("token")){
+      navigate("/");
+    }
+  },[]);
+
   return (
     <div className='h-screen bg-primary flex justify-center items-center'>
       <div className='bg-white p-5 rounded w-[450px]'>
