@@ -1,6 +1,6 @@
-import React, { useEffect,useNavigate } from 'react';
+import React, { useEffect } from 'react';
 import { Button, Form, Input, message } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import Divider from '../../components/Divider';
 import { LoginUser } from '../../apicalls/users'; // Import LoginUser
 

@@ -1,32 +1,6 @@
-// import React from 'react'
-// import {Button, Form,Input} from 'antd'
-// import { Link } from 'react-router-dom';
-// import  Divider  from '../../components/Divider';
-// import { RegisterUser } from '../../apicalls/users';
-// const rules=[
-//   {
-//     required :true,
-//     message: "required",
-//   },
-// ];
-// function Register() {
-//   const onFinish= async( values) =>{
-//     // console.log("Success  :" ,value);
-//     try{
-//      const response =await RegisterUser(values);
-//      if(response.success) {
-//       message.success(response.message);
-//      }
-//      else {
-//       throw new Error(response.message);
-//      }
-//     }catch(error){
-//       message.error(error.message)
-//     }
-//   };
-import React, { useEffect,useNavigate } from 'react';
+import React, { useEffect } from 'react';
 import { Button, Form, Input, message } from 'antd'; // Add 'message' import
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Divider from '../../components/Divider';
 import { RegisterUser } from '../../apicalls/users';
 
