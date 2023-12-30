@@ -1,42 +1,14 @@
-// // const mongoose =require('mongoose');
-// // mongoose.connect(process.env.mongo_url);
-// // const connection =mongoose.connection;
-// // connection.on('connected',()=>{
-// //     console.log('Mongo DB Connection Successful ');
-// // })
-// // connection.on('error',(err)=>{
-// //     console.log('Mongo DB Connection Failed');
-// // })
-// // module.exports =connection;
-// const express = require('express');
-// const mongoose = require('mongoose');
-// const usersRoute = require('./routes/usersRoute'); // Import usersRoute
+const mongoose = require('mongoose');
+mongoose.connect(process.env.mongo_url);
 
-// const app = express();
-// const port = process.env.PORT || 3000;
+const connection = mongoose.connection;
 
-// // ... (other middleware and configurations)
+connection.on('connected',() => {
+    console.log('Connected Successfully');
+})
 
-// app.use('/api/users', usersRoute); // Use the imported usersRoute
+connection.on('error',(err) => {
+    console.log('Connected error',err);
+})
 
-// // ... (other routes and configurations)
-
-// mongoose.connect(process.env.mongo_url, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-
-// const connection = mongoose.connection;
-
-// connection.on('connected', () => {
-//   console.log('Mongo DB Connection Successful');
-// });
-
-// connection.on('error', (err) => {
-//   console.log('Mongo DB Connection Failed');
-//   console.error(err);
-// });
-
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
-// });
+module.exports = mongoose;
