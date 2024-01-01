@@ -1,4 +1,3 @@
-
 // import { Button } from 'antd';
 // function App() {
 //   return (
@@ -8,7 +7,7 @@
 //       <button className="bg-primary text-white p-2">Ant Button</button>
 //     </div>
 //   </div>
-  
+
 //   );
 // }
 
@@ -19,25 +18,39 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProctectedPage from "./components/ProctectedPage";
 import Spinner from "./components/Spinner";
-import {useSelector} from "react-redux";
-
+import { useSelector } from "react-redux";
+import Profile from "./pages/Profile";
 
 function App() {
-  const {loading} = useSelector(state => state.loaders);
+  const { loading } = useSelector((state) => state.loaders);
   return (
     <div>
-      {loading && <Spinner/>}
+      {loading && <Spinner />}
       <Router>
         <Routes>
-          <Route path="/" element={<ProctectedPage><Home /></ProctectedPage>} />
+          <Route
+            path="/"
+            element={
+              <ProctectedPage>
+                <Home />
+              </ProctectedPage>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProctectedPage>
+                <Profile />
+              </ProctectedPage>
+            }
+          ></Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
+        
       </Router>
     </div>
   );
 }
 
 export default App;
-
-
