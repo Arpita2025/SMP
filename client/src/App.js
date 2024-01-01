@@ -18,10 +18,15 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProctectedPage from "./components/ProctectedPage";
+import Spinner from "./components/Spinner";
+import {useSelector} from "react-redux";
+
 
 function App() {
+  const {loading} = useSelector(state => state.loaders);
   return (
     <div>
+      {loading && <Spinner/>}
       <Router>
         <Routes>
           <Route path="/" element={<ProctectedPage><Home /></ProctectedPage>} />
