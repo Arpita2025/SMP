@@ -25,3 +25,7 @@ input:focus,textarea:focus,select:focus{
     box-shadow: none !important;
      
 } 
+table {
+     border: #a1a1a1 1px solid !important;
+     border-radius:2px;
+}
