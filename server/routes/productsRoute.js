@@ -3,7 +3,8 @@ const router = require("express").Router();
 // const authMiddleware = require("../middleware/authMiddleware");
 const Product = require("../models/productModel");
 const authMiddleware = require("../middleware/authMiddleware");
-
+const { cloudinary_js_config } = require("../config/cloudinaryConfig");
+const multer = require("multer");
 
 router.post("/add-product", authMiddleware, async (req, res) => {
   try {
@@ -14,7 +15,8 @@ router.post("/add-product", authMiddleware, async (req, res) => {
       message: "Product added successfully",
     });
   } catch (error) {
-    res.send({  //send
+    res.send({
+      //send
       success: false,
       message: error.message,
     });
@@ -22,7 +24,7 @@ router.post("/add-product", authMiddleware, async (req, res) => {
 });
 router.get("/get-products", async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1});
+    const products = await Product.find().sort({ createdAt: -1 });
     res.send({
       success: true,
       products,
@@ -37,8 +39,8 @@ router.get("/get-products", async (req, res) => {
 
 router.put("/edit-product/:id", authMiddleware, async (req, res) => {
   try {
-      await Product.findByIdAndUpdate(req.params.id, req.body);
-      res.send({
+    await Product.findByIdAndUpdate(req.params.id, req.body);
+    res.send({
       success: true,
       message: "Product updated successfully",
     });
@@ -64,5 +66,30 @@ router.delete("/delete-product/:id", authMiddleware, async (req, res) => {
     });
   }
 });
+const storage = multer.diskStorage({
+  filename: function (req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  },
+});
 
-module.exports=router;
+router.post(
+  "/upload-image-to-product",
+  authMiddleware,
+  multer({ storage: storage }).single("file"),
+  async (req, res) => {
+    try {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      const productId = req.body.productId;
+      await Product.findByIdAndUpdate(productId, {
+        $push: { images: result.secure_url },
+      });
+      res.send({
+        success: true,
+        message: "Image uploaded successfully",
+        result,
+      });
+    } catch (error) {}
+  }
+);
+
+module.exports = router;
