@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal, Tabs, Form, Input, Row, Col, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useDispatch, useSelector } from "react-redux";
-import { AddProduct, GetProducts } from "../../../apicalls/products";
+import {
+  AddProduct,
+  EditProduct,
+  GetProducts,
+} from "../../../apicalls/products";
 import { SetLoader } from "../../../redux/loadersSlice";
 
 const additionalThings = [
@@ -31,18 +35,29 @@ const rules = [
   },
 ];
 
-function ProductsForm({ showProductForm, setShowProductForm }) {
+function ProductsForm({
+  showProductForm,
+  setShowProductForm,
+  selectedProduct,
+  getData,
+}) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.users);
   const onFinish = async (values) => {
     try {
-      values.seller = user._id;
-      values.status = "pending";
       dispatch(SetLoader(true));
-      const response = await AddProduct(values);
+      let response = null;
+      if (selectedProduct) {
+        response = await EditProduct(selectedProduct._id, values);
+      } else {
+        values.seller = user._id;
+        values.status = "pending";
+        await AddProduct(values);
+      }
       dispatch(SetLoader(false)); // Removed the extra character "d"
       if (response.success) {
         message.success(response.message);
+        getData();
         setShowProductForm(false);
       } else {
         message.error(response.message);
@@ -54,6 +69,12 @@ function ProductsForm({ showProductForm, setShowProductForm }) {
   };
 
   const formRef = React.useRef(null);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      formRef.current.setFieldsValue(selectedProduct);
+    }
+  }, [selectedProduct]);
   return (
     <Modal
       title=""
@@ -66,63 +87,72 @@ function ProductsForm({ showProductForm, setShowProductForm }) {
         formRef.current.submit();
       }}
     >
-      <Tabs defaultActiveKey="1">
-        <Tabs.TabPane tab="General" key="1">
-          <Form layout="vertical" ref={formRef} onFinish={onFinish}>
-            <Form.Item label="Name" name="name" rules={rules}>
-              <Input type="text" />
-            </Form.Item>
-            <Form.Item label="Description" name="description" rules={rules}>
-              <TextArea type="text" />
-            </Form.Item>
-            <Row gutter={[16, 16]}>
-              <Col span={8}>
-                <Form.Item label="Category" name="category" rules={rules}>
-                  <select>
-                    <option value="">Select</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="fashion">Fashion</option>
-                    <option value="home">Home</option>
-                    <option value="sports">Sports</option>
-                  </select>
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="Price" name="price" rules={rules}>
-                  <Input type="number" />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="Years Old" name="yearsold" rules={rules}>
-                  <Input type="number" />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <div className="flex gap-10">
-              {additionalThings.map((item) => {
-                return (
-                  <Form.Item label={item.label} name={item.name}>
-                    <Input
-                      type="checkbox"
-                      value={item.name}
-                      onChange={(e) => {
-                        formRef.current.setFieldsValue({
-                          [item.name]: e.target.checked,
-                        });
-                      }}
-                      checked={formRef.current?.getFieldValue(item.name)}
-                    />
+      <div>
+        <h1 className="text-primary text-2xl font-semibold uppercase">
+          {selectedProduct ? "Edit Product" : "Add Product"}
+        </h1>
+        <Tabs defaultActiveKey="1">
+          <Tabs.TabPane tab="General" key="1">
+            <Form layout="vertical" ref={formRef} onFinish={onFinish}>
+              <Form.Item label="Name" name="name" rules={rules}>
+                <Input type="text" />
+              </Form.Item>
+              <Form.Item label="Description" name="description" rules={rules}>
+                <TextArea type="text" />
+              </Form.Item>
+              <Row gutter={[16, 16]}>
+                <Col span={8}>
+                  <Form.Item label="Category" name="category" rules={rules}>
+                    <select>
+                      <option value="">Select</option>
+                      <option value="electronics">Electronics</option>
+                      <option value="fashion">Fashion</option>
+                      <option value="home">Home</option>
+                      <option value="sports">Sports</option>
+                    </select>
                   </Form.Item>
-                );
-              })}
-            </div>
-          </Form>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Images" key="2">
-          <h1>Images</h1>
-        </Tabs.TabPane>
-      </Tabs>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="Price" name="price" rules={rules}>
+                    <Input type="number" />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="Years Old" name="yearsold" rules={rules}>
+                    <Input type="number" />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <div className="flex gap-10">
+                {additionalThings.map((item) => {
+                  return (
+                    <Form.Item
+                      label={item.label}
+                      name={item.name}
+                      valuePropName="checked"
+                    >
+                      <Input
+                        type="checkbox"
+                        value={item.name}
+                        onChange={(e) => {
+                          formRef.current.setFieldsValue({
+                            [item.name]: e.target.checked,
+                          });
+                        }}
+                        checked={formRef.current?.getFieldValue(item.name)}
+                      />
+                    </Form.Item>
+                  );
+                })}
+              </div>
+            </Form>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Images" key="2">
+            <h1>Images</h1>
+          </Tabs.TabPane>
+        </Tabs>
+      </div>
     </Modal>
   );
 }
