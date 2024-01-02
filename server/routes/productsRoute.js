@@ -22,7 +22,7 @@ router.post("/add-product", authMiddleware, async (req, res) => {
 });
 router.get("/get-products", async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().sort({ createdAt: -1});
     res.send({
       success: true,
       products,
@@ -41,6 +41,21 @@ router.put("/edit-product/:id", authMiddleware, async (req, res) => {
       res.send({
       success: true,
       message: "Product updated successfully",
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+router.delete("/delete-product/:id", authMiddleware, async (req, res) => {
+  try {
+    await Product.findByIdAndDelete(req.params.id);
+    res.send({
+      success: true,
+      message: "Product deleted successfully",
     });
   } catch (error) {
     res.send({
