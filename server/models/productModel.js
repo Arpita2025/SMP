@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    age: {
+    yearsold: {
       type: Number,
       required: true,
     },

@@ -1,9 +1,11 @@
 const router = require("express").Router();
-const Product = require("../model/productModel");
+// const Product = require("../model/productModel");
 // const authMiddleware = require("../middleware/authMiddleware");
+const Product = require("../models/productModel");
 const authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/add-product", authMiddelware, async (req, res) => {
+
+router.post("/add-product", authMiddleware, async (req, res) => {
   try {
     const newProduct = new Product(req.body);
     await newProduct.save();
@@ -12,7 +14,7 @@ router.post("/add-product", authMiddelware, async (req, res) => {
       message: "Product added successfully",
     });
   } catch (error) {
-    res.sendStatus({
+    res.send({  //send
       success: false,
       message: error.message,
     });

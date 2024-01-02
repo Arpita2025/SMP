@@ -93,7 +93,7 @@ function ProductsForm({ showProductForm, setShowProductForm }) {
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="Years Old" name="years-old" rules={rules}>
+                <Form.Item label="Years Old" name="yearsold" rules={rules}>
                   <Input type="number" />
                 </Form.Item>
               </Col>

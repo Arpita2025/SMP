@@ -40,8 +40,8 @@ function Products() {
       dataIndex: "category",
     },
     {
-      title: "Age",
-      dataIndex: "age",
+      title: "Yearsold",
+      dataIndex: "yearsold",
     },
     {
       title: "Status",
