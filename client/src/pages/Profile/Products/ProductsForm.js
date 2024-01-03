@@ -8,7 +8,7 @@ import {
   GetProducts,
 } from "../../../apicalls/products";
 import { SetLoader } from "../../../redux/loadersSlice";
-import Images from "./Imagess";
+import Images from "./Images";
 
 const additionalThings = [
   {

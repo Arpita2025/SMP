@@ -44,7 +44,7 @@ export const DeleteProduct = async (id) => {
 export const UploadProductImage = async (payload) => {
   try {
     const response = await axiosInstance.post(
-      `/api/products/upload-product-to-product/`,
+      `/api/products/upload-image-to-product/`,
       payload
     );
     return response.data;
