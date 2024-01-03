@@ -88,7 +88,7 @@ router.post(
       res.send({
         success: true,
         message: "Image uploaded successfully",
-        result,
+        data: result.secure_url,
       });
     } catch (error) {
       res.send({

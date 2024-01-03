@@ -12,7 +12,7 @@ function Images({ selectedProduct, setShowProductForm, getData }) {
 
   const upload = async () => {
     try {
-      dispatch(SetLoader(false));
+      dispatch(SetLoader(true));
       const formData = new FormData();
       formData.append("file", file);
       formData.append("productId", selectedProduct._id);
