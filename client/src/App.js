@@ -20,6 +20,7 @@ import ProctectedPage from "./components/ProctectedPage";
 import Spinner from "./components/Spinner";
 import { useSelector } from "react-redux";
 import Profile from "./pages/Profile";
+import Admin from "./pages/Admin";
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
@@ -43,7 +44,15 @@ function App() {
                 <Profile />
               </ProctectedPage>
             }
-          ></Route>
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProctectedPage>
+                <Admin />
+              </ProctectedPage>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>

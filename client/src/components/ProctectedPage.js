@@ -40,11 +40,19 @@ function ProctectedPage({ children }) {
       <div>
         {/*Header*/}
         <div className="flex justify-between items-center bg-primary p-5">
-          <h1 className="text-2xl text-white">MarketPlace</h1>
+          <h1 className="text-2xl text-white cursor-pointer" 
+          onClick={()=>navigate("/")}
+          >MarketPlace</h1>
           <div className="bg-white py-2 px-5 rounded flex gap-1 items-center">
             <i className="ri-shield-user-line"></i>
             <span className="underline cursor-pointer uppercase" 
-            onClick={()=>navigate("/profile")}>
+            onClick={()=> {
+              if(user.role === "user"){
+                navigate("/profile");
+              }else{
+                navigate("/admin");
+              }
+            }}>
               {user.name}
             </span>
             <i
