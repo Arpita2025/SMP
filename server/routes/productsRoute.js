@@ -3,7 +3,7 @@ const router = require("express").Router();
 // const authMiddleware = require("../middleware/authMiddleware");
 const Product = require("../models/productModel");
 const authMiddleware = require("../middleware/authMiddleware");
-const  cloudinary = require("../config/cloudinaryConfig");
+const cloudinary = require("../config/cloudinaryConfig");
 const multer = require("multer");
 
 router.post("/add-product", authMiddleware, async (req, res) => {
@@ -24,12 +24,14 @@ router.post("/add-product", authMiddleware, async (req, res) => {
 });
 router.post("/get-products", async (req, res) => {
   try {
-    const {seller, categories = [], yearsold = []} = req.body; // yearsold is age of the product
+    const { seller, categories = [], yearsold = [] } = req.body; // yearsold is age of the product
     let filters = {};
-    if(seller) {
+    if (seller) {
       filters.seller = seller;
     }
-    const products = await Product.find(filters).sort({ createdAt: -1 });
+    const products = await Product.find(filters)
+      .populate("seller")
+      .sort({ createdAt: -1 });
     res.send({
       success: true,
       products,
@@ -103,5 +105,21 @@ router.post(
     }
   }
 );
+// update proj status
+router.put("/update-product-status/:id", authMiddleware, async (req, res) => {
+  try {
+    const { status } = req.body;
+    await Product.findByIdAndUpdate(req.params.id, { status });
+    res.send({
+      success: true,
+      message: "Product status updated successfully",
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
 
 module.exports = router;
