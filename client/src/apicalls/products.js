@@ -33,7 +33,16 @@ export const EditProduct = async (id, payload) => {
     return error.message;
   }
 };
-
+export const GetProductById = async (id) => {
+  try {
+    const response = await axiosInstance.put(
+      `/api/products/get-product-by-id/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
 export const DeleteProduct = async (id) => {
   try {
     const response = await axiosInstance.delete(
@@ -56,7 +65,7 @@ export const UploadProductImage = async (payload) => {
   }
 };
 // update prod stats
-export const UpdateProductStatus = async (id, status) => {
+export const UpdateProductStatus = async (id, status) => { 
   try {
     const response = await axiosInstance.put(
       `/api/products/update-product-status/${id}`,

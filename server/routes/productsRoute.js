@@ -34,7 +34,7 @@ router.post("/get-products", async (req, res) => {
       .sort({ createdAt: -1 });
     res.send({
       success: true,
-      products,
+      data: products,
     });
   } catch (error) {
     res.send({
@@ -43,7 +43,20 @@ router.post("/get-products", async (req, res) => {
     });
   }
 });
-
+router.get("/get-product-by-id/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id).populate("seller");
+    res.send({
+      success: true,
+      data: product,
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
 router.put("/edit-product/:id", authMiddleware, async (req, res) => {
   try {
     await Product.findByIdAndUpdate(req.params.id, req.body);
