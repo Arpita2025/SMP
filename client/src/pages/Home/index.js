@@ -6,7 +6,7 @@ import { message } from "antd";
 import  Divider from "../../components/Divider"
 import {useNavigate} from "react-router-dom";
 function Home() {
-  const [products, setProducts] = React.userStatus([]);
+  const [products, setProducts] = React.useState([]);
   const [filters, setFilters] = React.useState({
     status: "approved",
   });
@@ -33,7 +33,10 @@ function Home() {
       <div className="grid grid-cols-5 gap-2">
         {products?.map((product) => {
           return (
-            <div className="border border-gray-300 rounded  border-solid flex flex-col gap-5  pb-2 cursor-pointer">
+            <div className="border border-gray-300 rounded  border-solid flex flex-col gap-5  pb-2 cursor-pointer"
+            key = {product._id}
+            onClick={()=>navigate(`/product/${product._id}`)}
+            >
               <img
                 src={product.images[0]}
                 className="w-full h-40 object-cover"
