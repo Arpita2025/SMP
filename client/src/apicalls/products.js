@@ -35,7 +35,7 @@ export const EditProduct = async (id, payload) => {
 };
 export const GetProductById = async (id) => {
   try {
-    const response = await axiosInstance.put(
+    const response = await axiosInstance.get(
       `/api/products/get-product-by-id/${id}`
     );
     return response.data;

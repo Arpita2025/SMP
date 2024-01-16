@@ -32,7 +32,7 @@ function ProductInfo() {
   return (
     product && (
       <div>
-        <div className="grid grid-cols-5 mt-5">
+        <div className="grid grid-cols-2 gap-5 mt-5">
           {/* images  */}
           <div className="flex flex-col gap-5">
             <img
@@ -70,6 +70,7 @@ function ProductInfo() {
 
           {/* details */}
           <div className="flex flex-col gap-3">
+            <div>
             <h1 className="text-2xl font-semibold text-orange-900">
               {product.name}
             </h1>
@@ -85,7 +86,7 @@ function ProductInfo() {
               <span> ${product.price}</span>
             </div>
             <div className="flex justify-between mt-2">
-              <span>Categpry</span>
+              <span>Category</span>
               <span className="uppercase"> {product.category}</span>
             </div>
             <div className="flex justify-between mt-2">
@@ -118,6 +119,7 @@ function ProductInfo() {
               <span>Email</span>
               <span className="uppercase"> {product.seller.email}</span>
             </div>
+          </div>
           </div>
         </div>
       </div>
