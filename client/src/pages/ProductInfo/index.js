@@ -1,13 +1,15 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { GetProductById, GetProducts } from "../../apicalls/products";
+import { GetAllBids, GetProductById, GetProducts } from "../../apicalls/products";
 import { SetLoader } from "../../redux/loadersSlice";
-import { message } from "antd";
+import { Button, message } from "antd";
 import Divider from "../../components/Divider";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
+import BidModal from "./BidModal";
 
 function ProductInfo() {
+  const [showAddNewBid, setShowAddNewBid] = React.useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = React.useState(0);
   const [product, setProduct] = React.useState(null);
   const navigate = useNavigate();
@@ -19,7 +21,11 @@ function ProductInfo() {
       const response = await GetProductById(id);
       dispatch(SetLoader(false));
       if (response.success) {
-        setProduct(response.data);
+        const bidsResponse = await GetAllBids({product:id})
+        setProduct({
+          ...response.data,
+          bids: bidsResponse.data,
+        });
       }
     } catch (error) {
       dispatch(SetLoader(false));
@@ -90,6 +96,10 @@ function ProductInfo() {
               <span className="uppercase"> {product.category}</span>
             </div>
             <div className="flex justify-between mt-2">
+              <span>Year Used</span>
+              <span className="uppercase"> {product.yearsold}</span>
+            </div>
+            <div className="flex justify-between mt-2">
               <span>Bill Available</span>
               <span> {product.billAvailable ? "Yes" : "No"}</span>
             </div>
@@ -120,8 +130,22 @@ function ProductInfo() {
               <span className="uppercase"> {product.seller.email}</span>
             </div>
           </div>
+
+          <Divider />
+
+           <div>
+            <div className="flex justify-between">
+              <h1 className="text-2xl font-semibold text-orange-900">Bids</h1>
+              <Button onClick={()=> setShowAddNewBid(!showAddNewBid)}>
+                New Bid
+              </Button>
+            </div>
+           </div>
+
           </div>
         </div>
+
+        {showAddNewBid && (<BidModal product={product} reloadData={getData} showBidModal={showAddNewBid} setShowBidModal={setShowAddNewBid} />)}
       </div>
     )
   );
