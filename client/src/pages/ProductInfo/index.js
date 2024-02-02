@@ -1,6 +1,10 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { GetAllBids, GetProductById, GetProducts } from "../../apicalls/products";
+import {
+  GetAllBids,
+  GetProductById,
+  GetProducts,
+} from "../../apicalls/products";
 import { SetLoader } from "../../redux/loadersSlice";
 import { Button, message } from "antd";
 import Divider from "../../components/Divider";
@@ -9,6 +13,7 @@ import moment from "moment";
 import BidModal from "./BidModal";
 
 function ProductInfo() {
+  const { user } = useSelector((state) => state.users);
   const [showAddNewBid, setShowAddNewBid] = React.useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = React.useState(0);
   const [product, setProduct] = React.useState(null);
@@ -21,7 +26,7 @@ function ProductInfo() {
       const response = await GetProductById(id);
       dispatch(SetLoader(false));
       if (response.success) {
-        const bidsResponse = await GetAllBids({product:id})
+        const bidsResponse = await GetAllBids({ product: id });
         setProduct({
           ...response.data,
           bids: bidsResponse.data,
@@ -77,75 +82,84 @@ function ProductInfo() {
           {/* details */}
           <div className="flex flex-col gap-3">
             <div>
-            <h1 className="text-2xl font-semibold text-orange-900">
-              {product.name}
-            </h1>
-            <span>{product.description}</span>
-          </div>
-          <Divider />
-          <div className="flex flex-col">
-            <h1 className="text-2xl font-semibold text-orange-900">
-              Product Details
-            </h1>
-            <div className="flex justify-between mt-2">
-              <span>Price</span>
-              <span> ${product.price}</span>
+              <h1 className="text-2xl font-semibold text-orange-900">
+                {product.name}
+              </h1>
+              <span>{product.description}</span>
             </div>
-            <div className="flex justify-between mt-2">
-              <span>Category</span>
-              <span className="uppercase"> {product.category}</span>
+            <Divider />
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-semibold text-orange-900">
+                Product Details
+              </h1>
+              <div className="flex justify-between mt-2">
+                <span>Price</span>
+                <span> ${product.price}</span>
+              </div>
+              <div className="flex justify-between mt-2">
+                <span>Category</span>
+                <span className="uppercase"> {product.category}</span>
+              </div>
+              <div className="flex justify-between mt-2">
+                <span>Year Used</span>
+                <span className="uppercase"> {product.yearsold}</span>
+              </div>
+              <div className="flex justify-between mt-2">
+                <span>Bill Available</span>
+                <span> {product.billAvailable ? "Yes" : "No"}</span>
+              </div>
+              <div className="flex justify-between mt-2">
+                <span>Box Available</span>
+                <span> {product.boxAvailable ? "Yes" : "No"}</span>
+              </div>
+              <div className="flex justify-between mt-2">
+                <span>Accessories Available</span>
+                <span> {product.accessoriesAvailable ? "Yes" : "No"}</span>
+              </div>
+              <div className="flex justify-between mt-2">
+                <span>Warranty Available</span>
+                <span> {product.warrantyAvailable ? "Yes" : "No"}</span>
+              </div>
             </div>
-            <div className="flex justify-between mt-2">
-              <span>Year Used</span>
-              <span className="uppercase"> {product.yearsold}</span>
+            <Divider />
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-semibold text-orange-900">
+                Seller Details
+              </h1>
+              <div className="flex justify-between mt-2">
+                <span>Name</span>
+                <span> {product.seller.name}</span>
+              </div>
+              <div className="flex justify-between mt-2">
+                <span>Email</span>
+                <span className="uppercase"> {product.seller.email}</span>
+              </div>
             </div>
-            <div className="flex justify-between mt-2">
-              <span>Bill Available</span>
-              <span> {product.billAvailable ? "Yes" : "No"}</span>
-            </div>
-            <div className="flex justify-between mt-2">
-              <span>Box Available</span>
-              <span> {product.boxAvailable ? "Yes" : "No"}</span>
-            </div>
-            <div className="flex justify-between mt-2">
-              <span>Accessories Available</span>
-              <span> {product.accessoriesAvailable ? "Yes" : "No"}</span>
-            </div>
-            <div className="flex justify-between mt-2">
-              <span>Warranty Available</span>
-              <span> {product.warrantyAvailable ? "Yes" : "No"}</span>
-            </div>
-          </div>
-          <Divider />
-          <div className="flex flex-col">
-            <h1 className="text-2xl font-semibold text-orange-900">
-              Seller Details
-            </h1>
-            <div className="flex justify-between mt-2">
-              <span>Name</span>
-              <span> {product.seller.name}</span>
-            </div>
-            <div className="flex justify-between mt-2">
-              <span>Email</span>
-              <span className="uppercase"> {product.seller.email}</span>
-            </div>
-          </div>
 
-          <Divider />
+            <Divider />
 
-           <div>
-            <div className="flex justify-between">
-              <h1 className="text-2xl font-semibold text-orange-900">Bids</h1>
-              <Button onClick={()=> setShowAddNewBid(!showAddNewBid)}>
-                New Bid
-              </Button>
+            <div className="flex flex-col">
+              <div className="flex justify-between">
+                <h1 className="text-2xl font-semibold text-orange-900">Bids</h1>
+                <Button
+                  onClick={() => setShowAddNewBid(!showAddNewBid)}
+                  disabled={user._id === product.seller._id}
+                >
+                  New Bid
+                </Button>
+              </div>
             </div>
-           </div>
-
           </div>
         </div>
 
-        {showAddNewBid && (<BidModal product={product} reloadData={getData} showBidModal={showAddNewBid} setShowBidModal={setShowAddNewBid} />)}
+        {showAddNewBid && (
+          <BidModal
+            product={product}
+            reloadData={getData}
+            showBidModal={showAddNewBid}
+            setShowBidModal={setShowAddNewBid}
+          />
+        )}
       </div>
     )
   );

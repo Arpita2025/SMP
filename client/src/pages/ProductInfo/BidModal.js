@@ -6,9 +6,9 @@
 //   const rules = [{ required: true, message: "Required" }];
 //   const onFinish = async(values)=>{
 //     try {
-      
+
 //     } catch (error) {
-      
+
 //     };
 //   }
 //   return (
@@ -46,24 +46,42 @@
 // export default BidModal;
 
 import React from "react";
-import { Form, Input, Modal } from "antd";
-
+import { Form, Input, Modal, message } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { PlaceNewBid } from "../../apicalls/products";
+import { SetLoader } from "../../redux/loadersSlice";
 function BidModal({ showBidModal, setShowBidModal, product, reloadData }) {
   const formRef = React.useRef(null);
   const rules = [{ required: true, message: "Required" }];
-
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.users);
   const onFinish = async (values) => {
     try {
-      // Your logic for handling form submission
+      dispatch(SetLoader(true));
+      const response = await PlaceNewBid({
+        ...values,
+        product: product._id,
+        seller: product.seller_.id,
+        buyer: user._id, // Corrected this line
+      });
+      dispatch(SetLoader(false));
+      if (response.success) {
+        message.success("Bid added successfully");
+        reloadData();
+        setShowBidModal(false);
+      } else {
+        throw new Error(response.message);
+      }
     } catch (error) {
-      // Handle error
+      message.error(error.message);
+      dispatch(SetLoader(false));
     }
   };
 
   return (
     <Modal
-      onCancel={() => setShowBidModal(false)}  
-      visible={showBidModal}  
+      onCancel={() => setShowBidModal(false)}
+      visible={showBidModal}
       centered
       width={700}
       onOk={() => formRef.current.submit()}

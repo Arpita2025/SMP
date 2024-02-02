@@ -7,10 +7,11 @@ import { DeleteProduct, GetProducts } from "../../../apicalls/products";
 import moment from "moment";
 
 function Products() {
+  const [showBids, setShowBids] = React.useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState(null);
   const [products, setProducts] = React.useState([]);
   const [showProductForm, setShowProductForm] = React.useState(false);
-  const {user} = useSelector((state) => state.users);
+  const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const getData = async () => {
     try {
@@ -73,14 +74,15 @@ function Products() {
     {
       title: "Added On",
       dataIndex: "createdAt",
-      render: (text, record) => moment(record.createdAt).format("DD.MM.YYYY hh:mm A"),
+      render: (text, record) =>
+        moment(record.createdAt).format("DD.MM.YYYY hh:mm A"),
     },
     {
       title: "Action",
       dataIndex: "action",
       render: (text, record) => {
         return (
-          <div className="flex gap-5">
+          <div className="flex gap-5 items-center">
             <i
               className="ri-delete-bin-line"
               onClick={() => {
@@ -94,6 +96,15 @@ function Products() {
                 setShowProductForm(true);
               }}
             ></i>
+            <span
+              className="underline cursor-pointer"
+              onClick={() => {
+                setSelectedProduct(record);
+                setShowBids(true);
+              }}
+            >
+              Show Bids
+            </span>
           </div>
         );
       },
@@ -125,8 +136,18 @@ function Products() {
           getData={getData}
         />
       )}
+      return (
+      <div>
+        {showBids && (
+          <Bids
+            showBidsModal={showBids}
+            setShowBidsModal={setShowBids}
+            selectedProduct={selectedProduct}
+          />
+        )}
+      </div>
+      );
     </div>
   );
 }
-
 export default Products;
