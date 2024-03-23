@@ -40,8 +40,8 @@ function BidModal({ showBidModal, setShowBidModal, product, reloadData }) {
 
   return (
     <Modal
-      onCancel={() => setShowBidModal(false)}  
-      visible={showBidModal}  
+      onCancel={() => setShowBidModal(false)}
+      visible={showBidModal}
       centered
       width={700}
       onOk={() => formRef.current.submit()}
