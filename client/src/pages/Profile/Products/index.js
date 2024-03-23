@@ -9,11 +9,9 @@ import Bids from "./Bids";
 
 function Products() {
   const [showBids, setShowBids] = React.useState(false);
-  const [showBids, setShowBids] = React.useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState(null);
   const [products, setProducts] = React.useState([]);
   const [showProductForm, setShowProductForm] = React.useState(false);
-  const { user } = useSelector((state) => state.users);
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const getData = async () => {
@@ -79,15 +77,12 @@ function Products() {
       dataIndex: "createdAt",
       render: (text, record) =>
         moment(record.createdAt).format("DD.MM.YYYY hh:mm A"),
-      render: (text, record) =>
-        moment(record.createdAt).format("DD.MM.YYYY hh:mm A"),
     },
     {
       title: "Action",
       dataIndex: "action",
       render: (text, record) => {
         return (
-          <div className="flex gap-5 items-center">
           <div className="flex gap-5 items-center">
             <i
               className="ri-delete-bin-line"

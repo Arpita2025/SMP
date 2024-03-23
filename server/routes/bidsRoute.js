@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const Bid = require('../models/bidModel');
-
-const authMiddleware = require('../middlewares/authMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
 
 //place a new bid
 router.post('/place-new-bid',authMiddleware,async(req,res) => {
@@ -15,9 +14,33 @@ router.post('/place-new-bid',authMiddleware,async(req,res) => {
 });
 
 //get all bids
-router.post("/get-all-bids", authMiddleware , async(req, res) => {
+// router.post("/get-all-bids", authMiddleware , async(req, res) => {
+//   try {
+//     const { product, seller } = req.body;
+//     let filters = {};
+//     if (product) {
+//       filters.product = product;
+//     }
+//     if (seller) {
+//       filters.seller = seller;
+//     }
+//     const bids = await Bid.find({ buyer: req.user._id })
+//       .populate("product")
+//       .populate("buyer")
+//       .populate("seller");
+//     res.send({ success: true, data: bids });
+//   } catch (error) {
+//     res.send({ success: false, message: error.message });
+//   }
+// });
+
+//get all bids
+router.post("/get-all-bids", authMiddleware, async (req, res) => {
   try {
     const { product, seller } = req.body;
+    // console.log("Product:", product);
+    // console.log("Seller:", seller);
+
     let filters = {};
     if (product) {
       filters.product = product;
@@ -25,12 +48,17 @@ router.post("/get-all-bids", authMiddleware , async(req, res) => {
     if (seller) {
       filters.seller = seller;
     }
-    const bids = await Bid.find({ buyer: req.user._id })
+    // console.log("Filters:", filters);
+
+    const bids = await Bid.find(filters)
       .populate("product")
       .populate("buyer")
       .populate("seller");
+    // console.log("Bids:", bids);
+
     res.send({ success: true, data: bids });
   } catch (error) {
+    // console.log("Error:", error.message);
     res.send({ success: false, message: error.message });
   }
 });
