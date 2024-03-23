@@ -13,7 +13,7 @@ import moment from "moment";
 import BidModal from "./BidModal";
 
 function ProductInfo() {
-  const {user} = useSelector((state) => state.users);
+  const { user } = useSelector((state) => state.users);
   const [showAddNewBid, setShowAddNewBid] = React.useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = React.useState(0);
   const [product, setProduct] = React.useState(null);
@@ -138,15 +138,39 @@ function ProductInfo() {
 
             <Divider />
 
-           <div>
-            <div className="flex justify-between">
-              <h1 className="text-2xl font-semibold text-orange-900">Bids</h1>
-              <Button onClick={()=> setShowAddNewBid(!showAddNewBid)} disabled={user._id === product.seller._id} >
-                New Bid
-              </Button>
-            </div>
-           </div>
+            <div>
+              <div className="flex justify-between">
+                <h1 className="text-2xl font-semibold text-orange-900">Bids</h1>
+                <Button
+                  onClick={() => setShowAddNewBid(!showAddNewBid)}
+                  disabled={user._id === product.seller._id}
+                >
+                  New Bid
+                </Button>
+              </div>
 
+              {product.showBidsOnProductPage &&
+                product.bids.map((bid) => {
+                  return (
+                    <div className="border border-gray-300 border-solid p-3 rounded m-3">
+                      <div className="flex justify-between text-gray-700">
+                        <span>Name</span>
+                        <span>{bid.buyer.name}</span>
+                      </div>
+                      <div className="flex justify-between text-gray-600">
+                        <span>Bid Amount</span>
+                        <span>$ {bid.bidAmount}</span>
+                      </div>
+                      <div className="flex justify-between text-gray-600">
+                        <span>Bid Placed On</span>
+                        <span>
+                          {moment(bid.createdAt).format("DD.MM.YYYY  hh:mm A")}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
           </div>
         </div>
 
