@@ -65,7 +65,7 @@ export const UploadProductImage = async (payload) => {
   }
 };
 // update prod stats
-export const UpdateProductStatus = async (id, status) => { 
+export const UpdateProductStatus = async (id, status) => {
   try {
     const response = await axiosInstance.put(
       `/api/products/update-product-status/${id}`,
@@ -79,20 +79,26 @@ export const UpdateProductStatus = async (id, status) => {
 
 //place a new bid
 export const PlaceNewBid = async (payload) => {
-  try{
-    const response = await axiosInstance.post("/api/bids/place-new-bid", payload);
+  try {
+    const response = await axiosInstance.post(
+      "/api/bids/place-new-bid",
+      payload
+    );
     return response.data;
-  }catch (error) {
+  } catch (error) {
     return error.message;
   }
-}
+};
 
 //get all bids
 export const GetAllBids = async (filters) => {
-  try{
-    const response = await axiosInstance.post("/api/bids/get-all-bids", filters);
+  try {
+    const response = await axiosInstance.post(
+      "/api/bids/get-all-bids",
+      filters
+    );
     return response.data;
-  }catch (error) {
+  } catch (error) {
     return error.message;
   }
-}
+};

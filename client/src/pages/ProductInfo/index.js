@@ -9,6 +9,7 @@ import moment from "moment";
 import BidModal from "./BidModal";
 
 function ProductInfo() {
+  const {user} = useSelector((state) => state.users);
   const [showAddNewBid, setShowAddNewBid] = React.useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = React.useState(0);
   const [product, setProduct] = React.useState(null);
@@ -136,7 +137,7 @@ function ProductInfo() {
            <div>
             <div className="flex justify-between">
               <h1 className="text-2xl font-semibold text-orange-900">Bids</h1>
-              <Button onClick={()=> setShowAddNewBid(!showAddNewBid)}>
+              <Button onClick={()=> setShowAddNewBid(!showAddNewBid)} disabled={user._id === product.seller._id} >
                 New Bid
               </Button>
             </div>

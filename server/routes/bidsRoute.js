@@ -4,9 +4,9 @@ const Bid = require('../models/bidModel');
 const authMiddleware = require('../middleware/authMiddleware');
 
 //place a new bid
-router.post('/place-new-bid',async(req,res) => {
+router.post('/place-new-bid',authMiddleware,async(req,res) => {
   try{
-    const newBid new Bid(req.body);
+    const newBid = new Bid(req.body);
     await newBid.save();
     res.send({success:true,message:"Bid placed Successfully"});
   }catch(error){
@@ -15,7 +15,7 @@ router.post('/place-new-bid',async(req,res) => {
 });
 
 //get all bids
-router.get("/get-all-bids", authMiddleware , async(req, res) => {
+router.post("/get-all-bids", authMiddleware , async(req, res) => {
   try {
     const {product,seller} = req.body;
     let filters = {} 
@@ -34,3 +34,5 @@ router.get("/get-all-bids", authMiddleware , async(req, res) => {
     res.send({success: false,message:error.message});
   }
 });
+
+module.exports = router;
