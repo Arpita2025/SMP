@@ -32,7 +32,7 @@ function Home() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getData();
   }, [filters]);
 

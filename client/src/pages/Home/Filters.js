@@ -57,35 +57,34 @@ function Filters({ showFilters, setShowFilters, filters, setFilters }) {
               </div>
             );
           })}
-        </div>
-        <h1 className="text-gray-600 mt-5">Ages</h1>
-        <div className="flex flex-col gap-1">
-          {yearsold.map((yearold) => {
-            return (
-              <div className="flex gap-2 items-center">
-                <input
-                  type="checkbox"
-                  name="yearold"
-                  className="max-width"
-                  checked={filters.yearold.includes(yearold.value)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setFilters({
-                        ...filters,
-                        yearold: [...filters.yearold.filter],
-                      });
-                    } else {
-                      setFilters({
-                        ...filters,
-                        yearold: filters.yearold.filter((item) => item !== yearold.value),
-                      });
-                    }
-                  }}
-                />
-                <label htmlFor="yearold">{yearold.name}</label>
-              </div>
-            );
-          })}
+       </div>
+       <h1 className="text-gray-600 mt-5">Ages</h1>
+      <div className="flex flex-col gap-1">
+        {yearsold.map((year) => (
+          <div key={year.value} className="flex gap-2 items-center">
+            <input
+              type="checkbox"
+              name="yearold"
+              className="max-width"
+              checked={filters.yearold.includes(year.value)}
+              onChange={(e) => {
+                const selectedYear = year.value;
+                if (e.target.checked) {
+                  setFilters((prevFilters) => ({
+                    ...prevFilters,
+                    yearold: [...prevFilters.yearold, selectedYear],
+                  }));
+                } else {
+                  setFilters((prevFilters) => ({
+                    ...prevFilters,
+                    yearold: prevFilters.yearold.filter((item) => item !== selectedYear),
+                  }));
+                }
+              }}
+            />
+            <label htmlFor="yearold">{year.name}</label>
+          </div>
+        ))}
         </div>
       </div>
     </div>

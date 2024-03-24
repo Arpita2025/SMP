@@ -22,7 +22,7 @@ router.post("/add-product", authMiddleware, async (req, res) => {
 });
 router.post("/get-products", async (req, res) => {
   try {
-    const { seller, categories = [], yearsold = [],status } = req.body; // yearsold is age of the product
+    const { seller, category = [], yearold = [],status } = req.body; // yearsold is age of the product
     let filters = {};
     if (seller) {
       filters.seller = seller;
@@ -30,6 +30,21 @@ router.post("/get-products", async (req, res) => {
     // if(status){
     //   filters.seller=(status);
     // }
+   if(category.length>0){
+    filters.category={$in: category};
+   }
+  //  if(yearold>0){
+  //     yearold.forEach((item)=>{
+  //        const fromYearold=item.split("-")[0];
+  //        const toYearold=item.split("-")[1];
+  //        filters.yearold={$gte: fromYearold ,$lte: toYearold};
+  //     });
+  //  }
+
+
+
+
+
     const products = await Product.find(filters)
       .populate("seller")
       .sort({ createdAt: -1 });
@@ -44,6 +59,7 @@ router.post("/get-products", async (req, res) => {
     });
   }
 });
+
 router.get("/get-product-by-id/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id).populate("seller");
