@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { GetProducts } from "../../apicalls/products";
 import { SetLoader } from "../../redux/loadersSlice";
@@ -11,6 +11,8 @@ function Home() {
   const [products, setProducts] = React.useState([]);
   const [filters, setFilters] = React.useState({
     status: "approved",
+    category:[],
+    yearold:[],
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,35 +32,39 @@ function Home() {
   React.useEffect(() => {
     getData();
   }, []);
+  useEffect(()=>{
+    // getData();
+  },[filters]);
   return (
-    <div className="flex-gap-5">
-      {showFilters && (
-        <Filters
+     <div className="flex-gap-2">
+       {showFilters && (
+         <Filters
           showFilters={showFilters}
           setShowFilters={setShowFilters}
-          filters={filters}
-          setFilters={setFilters}
+           filters={filters}
+           setFilters={setFilters}
         />
-      )}
+        )}
       <div className="flex flex-col gap-5">
-        <div className="flex gap-5 items-center">
-          {!showFilters && (
+        <div className="flex gap-5 ">
+           {!showFilters && (
             <i
               className="ri-equalizer-line text-xl cursor-pointer"
-              onClick={() => setShowFilters(!showFilters)}
-            ></i>
-          )}
+               onClick={() => setShowFilters(!showFilters)}
+             ></i>
+           )}
 
-          <input
-            type="text"
+           <input
+             type="text"
             placeholder="Search Products here..."
-            className="border border-gray-300 rounded border-solid w-full p-2 h-14"
-          />
-        </div>
-        <div
+            className="border border-gray-300 rounded border-solid px-2 py-1 h-14"
+            //style={{width : 30   }}
+           />
+         </div>
+         <div
           className={`
-      grid gap-5 ${showFilters ? "grid-cols-4" : "grid-cols-5"}`}
-        >
+       grid gap-5 ${showFilters ? "grid-cols-4" : "grid-cols-5"}`}
+         >
           {products?.map((product) => {
             return (
               <div

@@ -27,9 +27,9 @@ router.post("/get-products", async (req, res) => {
     if (seller) {
       filters.seller = seller;
     }
-    if(status){
-      filters.seller=status;
-    }
+    // if(status){
+    //   filters.seller=(status);
+    // }
     const products = await Product.find(filters)
       .populate("seller")
       .sort({ createdAt: -1 });
