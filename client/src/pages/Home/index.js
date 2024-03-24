@@ -30,19 +30,19 @@ function Home() {
   }, []);
   return (
     <div>
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid grid-cols-5 gap-5">
         {products?.map((product) => {
           return (
-            <div className="border border-gray-300 rounded  border-solid flex flex-col gap-5  pb-2 cursor-pointer"
+            <div className="border border-gray-300 rounded  border-solid flex flex-col gap-2  pb-2 cursor-pointer"
             key = {product._id}
             onClick={()=>navigate(`/product/${product._id}`)}
             >
               <img
                 src={product.images[0]}
-                className="w-full h-40 object-cover"
+                className="w-full h-52  p-2 rounded-md object-cover"
                 alt=""
               />
-              <div className=" px-2 flex flex-col gap-1">
+              <div className=" px-2 flex flex-col ">
                 <h1 className="text-lg front-semibold"> {product.name}</h1>
                 <p className="text-sm ">{product.description}</p>
                 <Divider />
