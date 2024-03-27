@@ -46,7 +46,7 @@ function Home() {
           setFilters={setFilters}
         />
       )}
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5  w-full">
         <div className="flex gap-5">
           {!showFilters && (
             <i

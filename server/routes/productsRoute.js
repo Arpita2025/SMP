@@ -33,13 +33,22 @@ router.post("/get-products", async (req, res) => {
    if(category.length>0){
     filters.category={$in: category};
    }
-  //  if(yearold>0){
-  //     yearold.forEach((item)=>{
-  //        const fromYearold=item.split("-")[0];
-  //        const toYearold=item.split("-")[1];
-  //        filters.yearold={$gte: fromYearold ,$lte: toYearold};
-  //     });
-  //  }
+   if(yearold.length>0){
+      yearold.forEach((item)=>{
+         const fromYearold=item.split("-")[0];
+         const toYearold=item.split("-")[1];
+         filters.yearold={$gte: fromYearold ,$lte: toYearold};
+      });
+   }
+  // if (yearold.length > 0) {
+  //   let yearoldFilters = [];
+  //   yearold.forEach((item) => {
+  //     const fromYearold = parseInt(item.split("-")[0]);
+  //     const toYearold = parseInt(item.split("-")[1]);
+  //     yearoldFilters.push({ yearold: { $gte: fromYearold, $lte: toYearold } });
+  //   });
+  //   filters.$or = yearoldFilters;
+  // }
 
 
 

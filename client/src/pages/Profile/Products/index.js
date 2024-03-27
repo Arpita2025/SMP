@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../../../redux/loadersSlice";
 import { DeleteProduct, GetProducts } from "../../../apicalls/products";
 import moment from "moment";
-import Bids from "./Bids";
-
+import Bids from './Bids';
 function Products() {
   const [showBids, setShowBids] = React.useState(false);
   const [selectedProduct, setSelectedProduct] = React.useState(null);
@@ -97,10 +96,9 @@ function Products() {
                 setShowProductForm(true);
               }}
             ></i>
-
             <span
               className="underline cursor-pointer"
-              onClick={() => {                             //oncancel is giving problem
+              onClick={() => {
                 setSelectedProduct(record);
                 setShowBids(true);
               }}
@@ -138,14 +136,17 @@ function Products() {
           getData={getData}
         />
       )}
-
-      {showBids && (
-        <Bids
-          showBidsModal={showBids}
-          setShowBidsModal={setShowBids}
-          selectedProduct={selectedProduct}
-        />
-      )}
+      return (
+      <div>
+        {showBids && (
+          <Bids
+            showBidsModal={showBids}
+            setShowBidsModal={setShowBids}
+            selectedProduct={selectedProduct}
+          />
+        )}
+      </div>
+      );
     </div>
   );
 }
