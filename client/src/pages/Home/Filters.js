@@ -22,28 +22,28 @@ const categories = [
     value: "books",
   },
 ];
-const ages = [
-  {
-    name: "0-2 years old",
-    value: "0-2",
-  },
-  {
-    name: "3-5 years old",
-    value: "3-5",
-  },
-  {
-    name: "6-8 years old",
-    value: "6-8",
-  },
-  {
-    name: "9-12 years old",
-    value: "9-12",
-  },
-  {
-    name: "12+ years old",
-    value: "12-20",
-  },
-];
+// const ages = [
+//   {
+//     name: "0-2 years old",
+//     value: "0-2",
+//   },
+//   {
+//     name: "3-5 years old",
+//     value: "3-5",
+//   },
+//   {
+//     name: "6-8 years old",
+//     value: "6-8",
+//   },
+//   {
+//     name: "9-12 years old",
+//     value: "9-12",
+//   },
+//   {
+//     name: "12+ years old",
+//     value: "12-20",
+//   },
+// ];
 function Filters({ showFilters, setShowFilters, filters, setFilters }) {
   return (
     <div className="w-72 flex flex-col">
@@ -75,7 +75,7 @@ function Filters({ showFilters, setShowFilters, filters, setFilters }) {
                     } else {
                       setFilters({
                         ...filters,
-                        category: filters.category.filters(
+                        category: filters.category.filter(
                           (item) => item !== category.value
                         ),
                       });
@@ -89,7 +89,7 @@ function Filters({ showFilters, setShowFilters, filters, setFilters }) {
         </div>
 
 
-        <h1 className="text-gray-600 text.sm">Ages</h1>
+        {/* <h1 className="text-gray-600 text.sm">Ages</h1>
         <div className="flex flex-col gap-1">
           {ages.map((age) => {
             return (
@@ -108,7 +108,7 @@ function Filters({ showFilters, setShowFilters, filters, setFilters }) {
                     } else {
                       setFilters({
                         ...filters,
-                        age: filters.age.filters(
+                        age: filters.age.filter(
                           (item) => item !== age.value
                         ),
                       });
@@ -119,7 +119,7 @@ function Filters({ showFilters, setShowFilters, filters, setFilters }) {
               </div>
             );
           })}
-        </div>
+        </div>  */}
       </div>
     </div>
   );

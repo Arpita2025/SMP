@@ -29,12 +29,12 @@ function Home() {
       message.error(error);
     }
   };
-  React.useEffect(() => {
-    getData();
-  }, []);
+  // React.useEffect(() => {
+  //   getData();
+  // }, []);
 
   useEffect (() => {
-    console.log(filters);
+    getData();
   }, [filters]);
 
   return (
@@ -47,12 +47,12 @@ function Home() {
           setFilters={setFilters}
         />
       )}
-      <div className="flex flex-col gap-5">
-        <div className="flex gap-5">
+      <div className="flex flex-col gap-5 w-full">
+        <div className="flex gap-5 items-center">
         {!showFilters && <i className="ri-equalizer-line text-xl cursor-pointer" onClick={()=>setShowFilters(!showFilters)}></i>}
         <Input type="text" 
         placeholder="Search Products..."
-        className="border border-gray-300 rounded border-solid px-2 py-1 h-14"
+        className="border border-gray-300 rounded border-solid px-2 py-1 h-14 w-full"
         />
         </div>
         <div
