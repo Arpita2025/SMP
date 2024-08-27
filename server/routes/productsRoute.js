@@ -22,10 +22,13 @@ router.post("/add-product", authMiddleware, async (req, res) => {
 });
 router.post("/get-products", async (req, res) => {
   try {
-    const { seller, categories = [], yearsold = [] } = req.body; // yearsold is age of the product
+    const { seller, categories = [], yearsold = [], status } = req.body; // yearsold is age of the product
     let filters = {};
     if (seller) {
       filters.seller = seller;
+    }
+    if(status){
+      filters.status = status;
     }
     const products = await Product.find(filters)
       .populate("seller")
