@@ -14,7 +14,6 @@ router.post("/add-product", authMiddleware, async (req, res) => {
     });
   } catch (error) {
     res.send({
-      //send
       success: false,
       message: error.message,
     });
